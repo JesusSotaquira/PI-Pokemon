@@ -4,8 +4,8 @@ import { GET_DETAIL } from '../actions/detailAction';
 import { CREATE_POKEMON } from '../actions/ActionCreate';
 
 const initialState = {
-  allPokemons: [],  // Lista completa de pokémons
-  pokemons: [],     // Lista filtrada (por búsqueda, inicialmente igual a la lista completa)
+  allPokemons: [],  
+  pokemons: [],     // Lista filtrada 
   pokemonDetails: null,
   pokemonData: null,
   error: null,

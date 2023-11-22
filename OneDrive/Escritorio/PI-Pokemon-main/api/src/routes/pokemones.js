@@ -55,27 +55,36 @@ router.get('/name', async (req, res) => {
 
 router.get('/', async (req, res) => {
   console.log('Ruta ejecutada.');
-  try {//antes
+  try {
     const nombre = req.query.nombre;
     const pagina = req.query.pagina || 1;
     let pokemones = [];
 
     // Buscar en la base de datos local
     const whereClause = nombre ? { Nombre: nombre } : {};
-    pokemones = await Pokemon.findAll({ where: whereClause });
+    pokemones = await Pokemon.findAll({ 
+      where: whereClause,
+  include: [{
+    model: Tipo,
+    as: 'Tipos',
+    through: { attributes: [] }, // Esto excluirá los atributos de la tabla intermedia
+  }]
+    });
 
     // Normalizar los datos de la base de datos local
     const dbPokemones = pokemones.map(pokemon => ({
       id: pokemon.ID,
       name: pokemon.Nombre,
       image: pokemon.Imagen,
-      type: pokemon.Tipos,
+      type: pokemon.Tipos.map(tipo => tipo.Nombre),
+      attack: pokemon.Ataque,
+      
       // ... otros campos ...
     }));
 
     // Buscar en la API de Pokémon
-    const offset = req.query.offset || 0;
-    const limit = req.query.limit || 10;
+    const offset = 0;
+    const limit = 190;
 
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${offset}&limit=${limit}`);
     const apiData = response.data.results;
@@ -89,7 +98,8 @@ router.get('/', async (req, res) => {
         name: pokemon.name,
         image: pokemonDetails.data.sprites.front_default,
         type: pokemonDetails.data.types.map(type => type.type.name),
-        // ... otros campos ...
+        attack: pokemonDetails.data.stats.find(stat => stat.stat.name === 'attack').base_stat, 
+        
       };
     });
 
@@ -137,7 +147,7 @@ router.get('/:id', async (req, res) => {
         defensa: apiData.stats.find(stat => stat.stat.name === 'defense').base_stat,
         velocidad: apiData.stats.find(stat => stat.stat.name === 'speed')?.base_stat,
         altura: apiData.height,
-        peso: apiData.weight,
+        peso: apiData.weight, 
         tipo: apiData.types.map(type => type.type.name).join(', '),
       };
 

@@ -4,10 +4,11 @@ import { createPokemon } from '../../redux/actions/ActionCreate';
 
 function PokemonForm() {
   const dispatch = useDispatch();
+  const defaultImage = 'https://es-static.z-dn.net/files/dbc/7cabf9bc89b93ce8fd55c6e741218502.jpg';
 
   const [formState, setFormState] = useState({
     Nombre: '',
-    Imagen: '',
+    Imagen: defaultImage,
     Vida: 0,
     Ataque: 0,
     Defensa: 0,
@@ -40,6 +41,7 @@ function PokemonForm() {
   }, []);
 
   const handleTypeChange = (event) => {
+    
     if (event.target.checked) {
       setFormState({
         ...formState,
@@ -74,8 +76,8 @@ function PokemonForm() {
         Nombre:
         <input type="text" name="Nombre" onChange={handleChange} value={formState.Nombre} required />
       </label>
-      <br />
-      <label>
+    {/* <br />
+       <label>
         Imagen:
         <input
           type="text"
@@ -85,6 +87,7 @@ function PokemonForm() {
           placeholder="URL de la imagen (opcional)"
         />
       </label>
+    */}
       <br />
       <label>
         Vida:

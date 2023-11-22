@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { getName } from '../../redux/actions/Actions';
 import { Link } from 'react-router-dom';
 
-const Search = ({ getName, pokemonData }) => {
+const Search = ({ getName, pokemonData, pokemons }) => {
+ // console.log('pokem',pokemons)
   const [query, setQuery] = useState('');
-
+//console.log('pokemondata', pokemonData)
   const handleInputChange = (event) => {
     setQuery(event.target.value);
   };
@@ -14,6 +15,7 @@ const Search = ({ getName, pokemonData }) => {
     if (query.trim() !== '') {
       getName(query);
       setQuery('');
+      
     }
   };
 
@@ -21,7 +23,7 @@ const Search = ({ getName, pokemonData }) => {
     <div>
       <input type="text" value={query} onChange={handleInputChange} />
       <button onClick={handleSearch}>Buscar</button>
-      {pokemonData && (
+    {/* {pokemonData && (
         <div>
           {Array.isArray(pokemonData) ? (
             // Renderizado para Pokémon creados en la base de datos
@@ -52,6 +54,7 @@ const Search = ({ getName, pokemonData }) => {
           )}
         </div>
       )}
+   */}
     </div>
   );
 };
