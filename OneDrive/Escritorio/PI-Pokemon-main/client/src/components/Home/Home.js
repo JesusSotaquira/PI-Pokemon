@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <div>
       {/* Componente de búsqueda */}
-      <Search />
+      {/* <Search /> */}
       <Card />
       {/* Otros componentes de la página principal si es necesario */}
     </div>

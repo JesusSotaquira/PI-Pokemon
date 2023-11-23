@@ -9,8 +9,9 @@ export function detail(id) {
       .then(response => {
         const pokemonDetail = {
           ...response.data,
+          imagen: response.data.Imagen || response.data.imagen,
           id: response.data.ID,
-          nombre: response.data.Nombre,
+          nombre: response.data.Nombre || response.data.nombre,
           vida: response.data.Vida || response.data.vida,
           ataque: response.data.Ataque || response.data.ataque,
           defensa: response.data.Defensa || response.data.defensa,

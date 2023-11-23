@@ -1,26 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux'; // Añade useDispatch
 import { Link } from 'react-router-dom';
 import { getPokemon } from '../../redux/actions/pokemonActions';
+import Search from '../Search/Search';
 
 const Card = ({ pokemons, getPokemon, pokemonData }) => {
   const [pagina, setPagina] = useState(1);
   const [orden, setOrden] = useState(null);
   const [origen, setOrigen] = useState(null);
   const [ordenAtaque, setOrdenAtaque] = useState(null);
-  const [tipo, setTipo] = useState([]); 
+  const [tipo, setTipo] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const dispatch = useDispatch(); // Agrega esto
 
   useEffect(() => {
-    getPokemon(pagina);
-  }, [getPokemon, pagina, orden, origen, ordenAtaque, tipo]); 
+    getPokemon(currentPage); // Cambia "pagina" a "currentPage"
+    dispatch({ type: 'CHANGE_PAGE', payload: currentPage });
+  }, [getPokemon, currentPage, orden, origen, ordenAtaque, tipo, dispatch]);
+  
+  
+  const getName = () => {
+    // Lógica para obtener el nombre
+    return "Nombre del Pokémon"; // Reemplaza esto con tu lógica real
+  };
+  const initialState = {
+    // ... otras propiedades
+    currentPage: 1,  // Añade esta propiedad para almacenar la página actual
+  };
 
   const handleNextPage = () => {
     setPagina(pagina + 1);
+    dispatch({ type: 'CHANGE_PAGE', payload: pagina + 1 }); // Despacha la acción de cambio de página
   };
-
+  
   const handlePreviousPage = () => {
     if (pagina > 1) {
       setPagina(pagina - 1);
+      dispatch({ type: 'CHANGE_PAGE', payload: pagina - 1 }); // Despacha la acción de cambio de página
     }
   };
 
@@ -40,7 +58,12 @@ const Card = ({ pokemons, getPokemon, pokemonData }) => {
   const handleTypeFilter = (event) => { 
     const value = Array.from(event.target.selectedOptions, option => option.value);
     setTipo(value);
+    setPagina(1);
   };
+
+
+
+
 
   let pokemonsOrdenados = [...pokemons];
 
@@ -84,11 +107,14 @@ const Card = ({ pokemons, getPokemon, pokemonData }) => {
   const pokemonsPorPagina = 12;
   
   const pokemonsPaginados = pokemonsFiltrados.slice((pagina - 1) * pokemonsPorPagina, pagina * pokemonsPorPagina);
-  console.log('paginado',pokemonsPaginados)
+  console.log('paginado',pokemonsFiltrados)
   
   console.log('data',pokemonData)
   return (
     <div>
+
+      <Search getName={getName} pokemonData={pokemonData} setPagina={setPagina} currentPage={currentPage} />
+            
       <select onChange={handleSort}>
         <option value="">Ordenar por nombre</option>
         <option value="asc">De la A a la Z</option>
@@ -129,6 +155,10 @@ const Card = ({ pokemons, getPokemon, pokemonData }) => {
         <option value="unknown">Desconocido</option>
         <option value="shadow">Sombra</option>
       </select>
+    
+      
+
+
 
       {pokemonsPaginados.map((pokemon, index) => {
         console.log('pokes',pokemon)
@@ -137,6 +167,7 @@ const Card = ({ pokemons, getPokemon, pokemonData }) => {
         }
         return (
           <div key={index}>
+            
             {pokemon.image && (
               <div>
                 <Link to={`/pokemons/${pokemon.id}`}>
@@ -152,13 +183,15 @@ const Card = ({ pokemons, getPokemon, pokemonData }) => {
                 <p>Tipos: {pokemon.type.join(', ')}</p>
               </div>
             )}
+            
           </div>
           
         );
       })}
       
       {pagina > 1 && <button onClick={handlePreviousPage}>Página anterior</button>}
-      {!pokemonData && <button onClick={handleNextPage}>Siguiente página</button>}
+      { pokemonsPaginados.length > 0 && <button onClick={handleNextPage}>Siguiente página</button>}
+
     </div>
   );
 };

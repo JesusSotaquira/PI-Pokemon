@@ -1,0 +1,64 @@
+/* PokemonForm.css */
+
+/* Ajusta la imagen de fondo para que cubra toda la pantalla */
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url('https://w.wallhaven.cc/full/o5/wallhaven-o561mm.png');
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    color: black;
+    background-attachment: fixed; /* Fija la imagen de fondo */
+  }
+  
+  /* Ajusta el formulario para que tenga márgenes en la parte superior e inferior */
+  form {
+    max-width: 400px;
+    margin: 50px auto; /* Ajusta la distancia desde la parte superior */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco semitransparente */
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  .error {
+    color: red;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Ajustes para mostrar los tipos en una fila horizontal */
+  label[for^="tipo"] {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  /* Estilo del botón */
+  button {
+    background-color: #e3e84f; 
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #d2d90d; 
+  }
+  
+  

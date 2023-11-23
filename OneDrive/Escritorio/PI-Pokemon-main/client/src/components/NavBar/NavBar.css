@@ -1,0 +1,21 @@
+/* NavBar.css */
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: rgb(207, 222, 76);
+    color: white;
+  }
+  
+  .nav-links {
+    display: flex;
+    gap: 1em;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: white;
+  }
+  

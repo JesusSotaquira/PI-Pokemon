@@ -46,6 +46,12 @@ export default function rootReducer(state = initialState, action) {
         ...state,
         pokemonData: null,
       };
+      case 'CHANGE_PAGE':
+    return {
+    ...state,
+    currentPage: action.payload,
+  };
+
       
     default:
       return state;
